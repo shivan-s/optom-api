@@ -1,0 +1,47 @@
+"""Test users routes."""
+
+from fastapi import status
+import pytest
+from pytest_lazyfixture import lazy_fixture
+
+
+class TestUsers:
+
+    url = "/users"
+
+    @pytest.mark.anyio
+    @pytest.mark.parametrize(
+        "client,status_code",
+        [
+            pytest.param(
+                lazy_fixture("client"),
+                status.HTTP_401_UNAUTHORIZED,
+                id="Normal staff",
+            ),
+            pytest.param(
+                lazy_fixture("admin_client"),
+                status.HTTP_201_CREATED,
+                id="Admin staff",
+            ),
+        ],
+    )
+    def test_create_user(self, client, status_code, fake_user):
+        """Test creation of users. Only admin users can create user."""
+        response = client.post(f"{self.url}/", json=fake_user)
+        assert response.status_code == status_code
+        assert response.json()["full_name"] == fake_user["full_name"]
+
+    @pytest.mark.anyio
+    def test_get_users(self, client, mock_user):
+        response = client.get(f"{self.url}/")
+        assert response.status_code == 200
+        assert mock_user["full_name"] in [
+            i["full_name"] for i in response.json()
+        ]
+
+    @pytest.mark.skip(reason="Need to write this functionality")
+    @pytest.mark.anyio
+    def test_get_user(self, client, mock_user):
+        response = client.get(f"{self.url}/{mock_user['id']}/")
+        assert response.status_code == 200
+        assert response.json()["full_name"] == mock_user["full_name"]

@@ -1,16 +1,15 @@
 """Test for project."""
 
 import pytest
-
-from src.project.main import main
-
-
-def test_main():
-    """Test main function."""
-    assert main() is None
+from fastapi import status
 
 
-@pytest.mark.xfail
-def test_main_fail():
-    """Expect fail."""
-    assert True is False
+class TestMain:
+    """Testing the root."""
+
+    url = ""
+
+    @pytest.mark.anyio
+    def test_root(self, client):
+        response = client.get(f"{self.url}/")
+        assert response.status_code == status.HTTP_200_OK

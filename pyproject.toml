@@ -13,7 +13,7 @@ multi_line_output = 3
 line_length = 79
 default_section = "THIRDPARTY"
 known_first_party = []
-known_third_party = ["pytest", "setuptools"]
+known_third_party = ["alembic", "faker", "fastapi", "jose", "passlib", "pydantic", "pytest", "pytest_lazyfixture", "sqlalchemy"]
 
 [tool.black]
 line-length = 79
@@ -24,8 +24,13 @@ addopts = "--cov="
 testpaths = ["tests"]
 
 [tool.mypy]
-mypy_path = "src"
+mypy_path = "app"
 ignore_missing_imports = true
 
 [tool.pydocstyle]
 match = '.*\.py'
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.0.1"
+tag_format = "$version"

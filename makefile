@@ -1,16 +1,36 @@
+# Run docker containers detached
 .PHONY: run
 run:
-	pipenv run python src/project/main.py
+	docker-compose down --remove-orphans && \
+	docker-compose up --build -d
+
+# Attach to docker containers
+.PHONY: attach
+attach:
+	docker-compose up
 
 .PHONY: test
 test:
-	pipenv run pytest -vv
+	docker-compose up -d  && \
+	docker exec -it optom-api-app sh -c "pytest -vv --cov-report term-missing:skip-covered --cov='app'"
+
+.PHONY: tox
+tox:
+	docker-compose up -d  && \
+	docker exec -it optom-api-app sh -c "tox"
 
 .PHONY: install
 install:
-	pipenv sync --dev
+	pre-commit install && \
+	pre-commit autoupdate && \
+	pipenv install --skip-lock --dev
 
-.PHONY: docs-requirements
-docs-requirements:
-	cd ./docs && \
-	pip-compile requirements.in
+MESSAGE=""
+.PHONY: makemigrations
+makemigrations:
+	pipenv run alembic revision --autogenerate -m "$(MESSAGE)"
+
+UPGRADE="head"
+.PHONY: migrate
+migrate:
+	pipenv run alembic upgrade "$(UPGRADE)"

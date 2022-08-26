@@ -4,13 +4,23 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+fastapi = {extras = ["all"], version = "*"}
+sqlalchemy = "*"
+alembic = "*"
+psycopg2-binary = "*"
+python-multipart = "*"
+requests = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+passlib = {extras = ["bcrypt"], version = "*"}
 
 [dev-packages]
 pytest = "*"
 mypy = "*"
 flake8 = "*"
 pytest-cov = "*"
-bump2version = "*"
+faker = "*"
+pytest-lazy-fixture = "*"
+pytest-xdist = "*"
 
 [requires]
 python_version = "3.10"
