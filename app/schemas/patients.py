@@ -10,6 +10,8 @@ from .specprescriptions import SpecPrescription
 
 
 class PatientBase(BaseModel):
+    """Base Pydantic model for Patient."""
+
     name: str
     dob: datetime.date
     address: str | None
@@ -20,10 +22,14 @@ class PatientBase(BaseModel):
 
 
 class PatientCreate(PatientBase):
+    """Create Pydantic model for Patient."""
+
     pass
 
 
 class PatientUpdate(BaseModel):
+    """Update Pydantic model for Patient."""
+
     name: str | None
     dob: datetime.date | None
     address: str | None
@@ -34,10 +40,14 @@ class PatientUpdate(BaseModel):
 
 
 class Patient(PatientBase):
+    """Patient Pydantic model."""
+
     id: int
     exams: list[Exam] | None
     specprescriptions: list[SpecPrescription] | None
     specdispenses: list[SpecDispense] | None
 
     class Config:
+        """Configuration for Patient model."""
+
         orm_mode = True

@@ -10,7 +10,14 @@ from .patients import (
     get_patients,
     update_patient,
 )
-from .users import create_user, get_user, get_users
+from .users import (
+    create_user,
+    delete_user,
+    get_user_by_id,
+    get_user_by_username,
+    get_users,
+    update_user,
+)
 
 __all__ = [
     "get_patients",
@@ -22,6 +29,9 @@ __all__ = [
     "update_patient",
     "delete_patient",
     "create_user",
-    "get_user",
+    "get_user_by_id",
+    "get_user_by_username",
     "get_users",
+    "update_user",
+    "delete_user",
 ]

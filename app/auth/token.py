@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 from app.auth.user import get_user
 from app.sql.database import get_db
+from app.sql.models import User
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
@@ -18,7 +19,16 @@ ACCESS_TOKEN_EXPIRES_MINUTES = 30
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
+    """Generate access token.
+
+    Args:
+        data (dict): Data ingestrion for jwt module.
+        expires_delta (timedelta | None): Expiration time for token.
+
+    Returns:
+        (str): JWT token as a string.
+    """
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -31,7 +41,19 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
-):
+) -> User:
+    """Get the current user as the client.
+
+    Args:
+        token (str): JWT access token.
+        db (Session): Database session.
+
+    Raises:
+        HTTPException: Access token is not valid.
+
+    Returns:
+        (User): User client.
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Unable to validate credentials",

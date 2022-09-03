@@ -13,7 +13,17 @@ multi_line_output = 3
 line_length = 79
 default_section = "THIRDPARTY"
 known_first_party = []
-known_third_party = ["alembic", "faker", "fastapi", "jose", "passlib", "pydantic", "pytest", "pytest_lazyfixture", "sqlalchemy"]
+known_third_party = [
+  "alembic",
+  "faker",
+  "fastapi",
+  "jose",
+  "passlib",
+  "pydantic",
+  "pytest",
+  "pytest_lazyfixture",
+  "sqlalchemy",
+]
 
 [tool.black]
 line-length = 79
@@ -28,7 +38,8 @@ mypy_path = "app"
 ignore_missing_imports = true
 
 [tool.pydocstyle]
-match = '.*\.py'
+convention = "pep257"
+match = 'app(.*)\.py'
 
 [tool.commitizen]
 name = "cz_conventional_commits"

@@ -34,16 +34,19 @@ def db(db_engine):
 
 @pytest.fixture(scope="session", autouse=True)
 def faker():
+    """Faker initialised."""
     return Faker()
 
 
 @pytest.fixture(scope="session", autouse=True)
 def faker_session_locale():
+    """Set the locale for faker."""
     return ["en_NZ"]
 
 
 @pytest.fixture(scope="session", autouse=True)
 def faker_seed():
+    """Random seed for faker generating information."""
     return 42
 
 
@@ -210,3 +213,13 @@ def mock_user(fake_user, db):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+@pytest.fixture(scope="function")
+def user_update(faker) -> dict[str, str]:
+    """Update user."""
+    user = {
+        "username": faker.user_name(),
+        "full_name": faker.name(),
+    }
+    return jsonable_encoder(user)

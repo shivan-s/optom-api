@@ -22,6 +22,7 @@ async def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
+    """Endpoint to login and obtain access token."""
     user = authenticate_user(
         username=form_data.username, password=form_data.password, db=db
     )

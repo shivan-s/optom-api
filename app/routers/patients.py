@@ -19,6 +19,7 @@ async def create_patient(
     patient: schemas.PatientCreate,
     db: Session = Depends(get_db),
 ):
+    """Create a patient."""
     # db_patient = crud.get_patient_by_name_and_dob(
     #     db, patient_name=patient.name, patient_dob=patient.dob
     # )
@@ -36,12 +37,14 @@ async def create_patient(
 
 @router.get("/", response_model=list[schemas.Patient])
 async def read_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    """Read patient list."""
     patients = crud.get_patients(db, skip=skip, limit=limit)
     return patients
 
 
 @router.get("/{patient_id}", response_model=schemas.Patient)
 async def read_patient(patient_id: int, db: Session = Depends(get_db)):
+    """Read a patient by id."""
     db_patient = crud.get_patient(db, patient_id=patient_id)
     if db_patient is None:
         raise HTTPException(
@@ -56,6 +59,7 @@ async def update_patient(
     patient_updates: schemas.PatientUpdate,
     db: Session = Depends(get_db),
 ):
+    """Update a patient by id."""
     db_patient = crud.get_patient(db, patient_id=patient_id)
     if db_patient is None:
         raise HTTPException(
@@ -67,8 +71,9 @@ async def update_patient(
     return updated_patient
 
 
-@router.delete("/{patient_id}", status_code=204)
+@router.delete("/{patient_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_patient(patient_id: int, db: Session = Depends(get_db)):
+    """Delete a patient by id."""
     db_patient = crud.get_patient(db, patient_id=patient_id)
     if db_patient is None:
         raise HTTPException(

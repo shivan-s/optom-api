@@ -8,6 +8,8 @@ from .specdispenses import SpecDispense
 
 
 class SpecPrescriptionBase(BaseModel):
+    """Base Pydantic model for SpecPrescription."""
+
     right_sphere: decimal.Decimal
     right_cylinder: decimal.Decimal
     right_axis: decimal.Decimal
@@ -20,18 +22,26 @@ class SpecPrescriptionBase(BaseModel):
     left_inter_add: decimal.Decimal
 
     class Config:
+        """Configuration for SpecPrescription."""
+
         orm_mode = True
 
 
 class SpecPrescriptionCreate(SpecPrescriptionBase):
+    """Create Pydantic model for SpecPrescrption."""
+
     pass
 
 
 class SpecPrescriptionUpdate(BaseModel):
+    """Update Pydantic model for SpecPrescrption."""
+
     pass
 
 
 class SpecPrescription(SpecPrescriptionBase):
+    """SpecPrescrption Pydantic model."""
+
     id: int
     exam_id: int
     patient_id: int

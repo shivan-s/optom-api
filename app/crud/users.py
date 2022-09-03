@@ -6,11 +6,9 @@ from app import schemas
 from app.auth import get_password_hash
 from app.sql import models
 
-# def get_users(db: Session, skip: int = 0, limit: int = 100):
-#     return db.query(models.User).offset(skip).limit(limit).all()
-
 
 def create_user(db: Session, user: schemas.UserCreate):
+    """Create user."""
     hashed_password = get_password_hash(password=user.password)
     db_user = models.User(
         username=user.username,
@@ -23,11 +21,35 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
-def get_user(db: Session, username: str):
-    """Get User list."""
+def get_user_by_username(db: Session, username: str):
+    """Get user by username."""
     return db.query(models.User).filter(models.User.username == username).one_or_none()
 
 
+def get_user_by_id(db: Session, user_id: int):
+    """Get user by id."""
+    return db.query(models.User).filter(models.User.id == user_id).one_or_none()
+
+
 def get_users(db: Session):
-    """Get User list."""
+    """Get user list."""
     return db.query(models.User).all()
+
+
+def update_user(db: Session, user_id: int, user_updates: schemas.UserUpdate):
+    """Edit user."""
+    db_user = db.query(models.User).filter(models.User.id == user_id).one()
+    user_update_data = user_updates.dict(exclude_unset=True)
+    for key, value in user_update_data.items():
+        setattr(db_user, key, value)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+
+def delete_user(db: Session, user_id: int):
+    """Delete user."""
+    db_user = db.query(models.User).filter(models.User.id == user_id).one()
+    db.delete(db_user)
+    db.commit()

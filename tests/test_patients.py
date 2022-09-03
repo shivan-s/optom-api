@@ -2,6 +2,7 @@
 
 import pytest
 from fastapi import status
+from fastapi.encoders import jsonable_encoder
 from pytest_lazyfixture import lazy_fixture
 
 
@@ -135,10 +136,11 @@ class TestPatients:
         )
         assert response.status_code == status_code
         if status_code == status.HTTP_200_OK:
-            assert response.json()["name"] != old_mock_patient_name
-            assert response.json()["dob"] != old_mock_patient_dob
             assert response.json()["name"] == patient_update["name"]
             assert response.json()["dob"] == patient_update["dob"]
+        else:
+            assert mock_patient.name == old_mock_patient_name
+            assert jsonable_encoder(mock_patient.dob) == old_mock_patient_dob
 
     @pytest.mark.anyio
     @pytest.mark.parametrize(

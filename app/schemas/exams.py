@@ -8,16 +8,22 @@ from .specprescriptions import SpecPrescription
 
 
 class ExamBase(BaseModel):
+    """Base Exam Pydantic model."""
+
     history: str
     health: str
     date_updated: datetime.datetime
 
 
 class ExamCreate(ExamBase):
+    """Create Exam Pydantic model."""
+
     pass
 
 
 class ExamUpdate(BaseModel):
+    """Update Exam Pydantic model."""
+
     history: str | None
     health: str | None
     patient_id: int | None
@@ -25,6 +31,8 @@ class ExamUpdate(BaseModel):
 
 
 class Exam(ExamBase):
+    """Exam Pydantic model."""
+
     id: int
     patient_id: int
     date_created: datetime.datetime
@@ -32,4 +40,6 @@ class Exam(ExamBase):
     specprescriptions: list[SpecPrescription]
 
     class Config:
+        """Configuration."""
+
         orm_mode = True
