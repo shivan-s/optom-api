@@ -17,3 +17,5 @@ jobs:
       - id: docker-compose
         name: Docker compose
         uses: isbang/compose-action@v1.2.0
+        with:
+          path: docker-compose.yaml
