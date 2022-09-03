@@ -2,7 +2,7 @@
 .PHONY: run
 run:
 	docker-compose down --remove-orphans && \
-	docker-compose up --build -d
+	docker-compose --env-file '.env' up --build -d
 
 # Attach to docker containers
 .PHONY: attach
@@ -12,12 +12,12 @@ attach:
 ARGPATH="tests"
 .PHONY: test
 test:
-	docker-compose up -d  && \
+	docker-compose --env-file '.env' up -d  && \
 	docker exec -it optom-api-app sh -c "pytest -vv -k $(ARGPATH) --cov-report html --cov='app'"
 
 .PHONY: tox
 tox:
-	docker-compose up -d  && \
+	docker-compose --env-file '.env' up -d  && \
 	docker exec -it optom-api-app sh -c "tox"
 
 .PHONY: install

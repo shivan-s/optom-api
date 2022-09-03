@@ -19,8 +19,8 @@ services:
     build: .
     depends_on:
       - db
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     restart: always
     ports:
       - ${APP_PORT:-8000}:8000
