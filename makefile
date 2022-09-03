@@ -9,10 +9,11 @@ run:
 attach:
 	docker-compose up
 
+ARGPATH="tests"
 .PHONY: test
 test:
 	docker-compose up -d  && \
-	docker exec -it optom-api-app sh -c "pytest -vv --cov-report term-missing:skip-covered --cov='app'"
+	docker exec -it optom-api-app sh -c "pytest -vv -k $(ARGPATH) --cov-report html --cov='app'"
 
 .PHONY: tox
 tox:
