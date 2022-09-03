@@ -8,7 +8,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data/
       - pgconf:/etc/postgresql
@@ -23,7 +23,7 @@ services:
       - .env
     restart: always
     ports:
-      - ${APP_PORT}:8000
+      - ${APP_PORT:-8000}:8000
     volumes:
       - ./app/:/code/app/
       - ./tests/:/code/tests/
