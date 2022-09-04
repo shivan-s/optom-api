@@ -5,7 +5,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from app.sql.database import DB, PASSWORD, USER
+from app.sql.database import DB, PASSWORD, PORT, SERVER, USER
 from app.sql.models import Base
 
 # this is the Alembic Config object, which provides
@@ -13,8 +13,6 @@ from app.sql.models import Base
 config = context.config
 
 # Setting DB connection
-PORT = "5433"
-SERVER = "0.0.0.0"
 SQLALCHEMY_DATABASE_URL = (
     f"postgresql+psycopg2://{USER}:{PASSWORD}@{SERVER}:{PORT}/{DB}"
 )
