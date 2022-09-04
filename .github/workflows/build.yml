@@ -17,5 +17,5 @@ jobs:
       - id: docker-compose
         name: Build with docker-compose
         run: |
-          docker-compose --env-file '.env.local' up --build -d
+          docker-compose --env-file './.env.local' up --build -d
           docker exec -it optom-api-app sh -c "pytest"
