@@ -32,6 +32,5 @@ jobs:
         name: Build with docker-compose
         run: |
           docker-compose up --build -d
-          docker exec optom-api-app alembic revision --autogenerate -m "init"
-          # docker exec optom-api-app alembic upgrade head
+          docker exec optom-api-app alembic upgrade head
           docker exec optom-api-app sh -c "pytest"
